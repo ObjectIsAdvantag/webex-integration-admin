@@ -25,8 +25,12 @@ const app = express();
 // Step 0: create an OAuth integration from https://developer.ciscospark.com/add-integration.html
 //   - then fill in your Integration properties below
 //
-const clientId = process.env.CLIENT_ID || "C4d2626189e40ffbde5f8d2948650bda5b4261804986bb3a977b079d2af2d7d93";
-const clientSecret = process.env.CLIENT_SECRET || "81772d83ee75a5835d2b19a1c9e95b47bf6618a3a736e361c5324dc18e7183e8";
+// A default proposed integration has been setup with:
+//   - all available Webex scopes (except: spark:all)
+//   - redirect URI to localhost:8080/oauth 
+//
+const clientId = process.env.CLIENT_ID || "C24ba23a9215b84f92b608ac72d664a4c0416e8c6c5575f64c438813d50ba1955";
+const clientSecret = process.env.CLIENT_SECRET || "30a1fb7e62440b42336ae11978c6d58e32804071be3bf0c5a49743a105716d07";
 const scopes = process.env.SCOPES || "spark:people_read"; // supported scopes are documented at: https://developer.webex.com/add-integration.html, the scopes separator is a space, example: "spark:people_read spark:rooms_read"
 
 // Compute redirect URI where your integration is waiting for Webex cloud to redirect and send the authorization code
@@ -185,11 +189,8 @@ app.get("/oauth", function (req, res) {
       }
       debug("OAuth flow completed, fetched tokens: " + JSON.stringify(json));
 
-      // [Optional] Store tokens for future use
-      storeTokens(json.access_token, json.expires_in, json.refresh_token, json.refresh_token_expires_in);
-
       // OAuth flow has completed
-      oauthFlowCompleted(json.access_token, res);
+      oauthFlowCompleted(json, res);
    });
 });
 
@@ -201,77 +202,22 @@ app.get("/oauth", function (req, res) {
 // some optional activities to perform here: 
 //    - associate the issued access token to a user through the state (acting as a Correlation ID)
 //    - store the refresh token (valid 90 days) to reissue later a new access token (valid 14 days)
-function oauthFlowCompleted(access_token, res) {
+function oauthFlowCompleted(json, res) {
 
    //
    // Custom logic below
    //
 
-   // Retreive user name: GET https://api.ciscospark.com/v1/people/me
-   const options = {
-      method: 'GET',
-      url: 'https://api.ciscospark.com/v1/people/me',
-      headers:
-      {
-         "authorization": "Bearer " + access_token
-      }
-   };
-
-   request(options, function (error, response, body) {
-      if (error) {
-         debug("could not reach Webex API to retreive Person's details, error: " + error);
-         res.send("<h1>OAuth Integration could not complete</h1><p>Sorry, could not retreive your Webex Teams account details. Try again...</p>");
-         return;
-      }
-
-      // Check the call is successful
-      if (response.statusCode != 200) {
-         debug("could not retreive your details, /people/me returned: " + response.statusCode);
-         res.send("<h1>OAuth Integration could not complete</h1><p>Sorry, could not retreive your Webex Teams account details. Try again...</p>");
-         return;
-      }
-
-      // Check JSON payload is compliant with specs https://api.ciscospark.com/v1/people/me
-      //    {
-      //      "id": "Y2lzY29zcGFyazovL3VzL1BFT1BMRS85MmIzZGQ5YS02NzVkLTRhNDEtOGM0MS0yYWJkZjg5ZjQ0ZjQ",
-      //      "emails": [
-      //        "stsfartz@cisco.com"
-      //      ],
-      //      "displayName": "Steve Sfartz",
-      //      "avatar": "https://1efa7a94ed216783e352-c62266528714497a17239ececf39e9e2.ssl.cf1.rackcdn.com/V1~c2582d2fb9d11e359e02b12c17800f09~aqSu09sCTVOOx45HJCbWHg==~1600",
-      //      "created": "2016-02-04T15:46:20.321Z"
-      //    }
-      const json = JSON.parse(body);
-      if ((!json) || (!json.displayName)) {
-         debug("could not parse Person details: bad json payload or could not find a displayName.");
-         res.send("<h1>OAuth Integration could not complete</h1><p>Sorry, could not retreive your Webx Teams account details. Try again...</p>");
-         return;
-      }
-
-      // Uncomment to send feedback via static HTML code 
-      //res.send("<h1>OAuth Integration example for Webex (static HTML)</h1><p>So happy to meet, " + json.displayName + " !</p>");
-      // Current code leverages an EJS template:
-      const str = read(join(__dirname, '/www/display-name.ejs'), 'utf8');
-      const compiled = ejs.compile(str)({ "displayName": json.displayName });
-      res.send(compiled);
-   });
+   const str = read(join(__dirname, '/www/show-tokens.ejs'), 'utf8');
+   const compiled = ejs.compile(str)({ "accessToken": json.access_token, "refreshToken": json.refresh_token });
+   res.send(compiled);
 }
 
-
-// The idea here is to store the access token for future use, and the expiration dates and refresh_token to have Webex cloud issue a new access token
-function storeTokens(access_token, expires_in, refresh_token, refresh_token_expires_in) {
-
-   // Store the token in some secure backend
-   debug("TODO: store tokens and expiration dates");
-
-   // For demo purpose, we'll NOW ask for a refreshed token
-   refreshAccessToken(refresh_token);
-}
 
 //
 // Example of Refresh token usage
 //
-function refreshAccessToken(refresh_token) {
+function refreshToken(token) {
 
    const options = {
       method: "POST",
