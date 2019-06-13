@@ -1,7 +1,7 @@
 {
-  "name": "webex-integration-sample",
-  "version": "3.1.0",
-  "description": "an example of Webex Integration (OAuth flow) in Node?js",
+  "name": "webex-integration-admin",
+  "version": "0.1.0",
+  "description": "Scoped Tokens issuer for Webex Administrators",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

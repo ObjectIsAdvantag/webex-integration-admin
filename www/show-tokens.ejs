@@ -8,16 +8,21 @@
 </head>
 
 <body>
-   <div id="content">
-      <h1>Scoped Token Issuer</h1>
-      <p>The OAuth flow was successfully completed</p>
-      <p>please find your tokens below:
-         <ul>
-            <li>Access token: <%= accessToken %></li>
-            <li>Refresh token: <%= refreshToken %></li>
-         </ul>
-      </p>
+   <div align=center>
+      <div style="width:600px" align=left>
+
+         <h1>Scoped Token Issuer</h1>
+         <p>The OAuth flow was successfully completed:</p>
+         <p>
+            <ul>
+               <li>Access token: <input type="text" size="30" value=<%= accessToken %> /></li>
+               <li>Refresh token: <input type="text" size="30" value=<%= refreshToken %></li> </ul> </p> </p> <p>Copy
+                  these
+                  values to a safe place, and close this page.
+         </p>
+      </div>
    </div>
+
 </body>
 
 </html>

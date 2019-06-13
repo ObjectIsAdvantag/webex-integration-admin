@@ -24,14 +24,16 @@ const app = express();
 
 // Step 0: create an OAuth integration from https://developer.ciscospark.com/add-integration.html
 //   - then fill in your Integration properties below
-//
+
 // A default proposed integration has been setup with:
-//   - all available Webex scopes (except: spark:all)
+//   - all available Webex user, admin & compliance scopes (except: spark:all)
 //   - redirect URI to localhost:8080/oauth 
 //
 const clientId = process.env.CLIENT_ID || "C24ba23a9215b84f92b608ac72d664a4c0416e8c6c5575f64c438813d50ba1955";
 const clientSecret = process.env.CLIENT_SECRET || "30a1fb7e62440b42336ae11978c6d58e32804071be3bf0c5a49743a105716d07";
-const scopes = process.env.SCOPES || "spark:people_read"; // supported scopes are documented at: https://developer.webex.com/add-integration.html, the scopes separator is a space, example: "spark:people_read spark:rooms_read"
+
+// supported scopes are documented at: https://developer.webex.com/add-integration.html, the scopes separator is a space
+const scopes = process.env.SCOPES || "spark-admin:people_read"; 
 
 // Compute redirect URI where your integration is waiting for Webex cloud to redirect and send the authorization code
 // unless provided via the REDIRECT_URI variable

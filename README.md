@@ -1,6 +1,6 @@
 # Scoped Tokens issuer for Webex Administrators
 
-This code sample illustrates how to generate scoped tokens with [Webex OAuth Grant flow]().
+This code sample illustrates how to generate scoped tokens with [Webex OAuth Grant flow](https://developer.webex.com/docs/integrations).
 
 This sample is configured with a pre-defined OAuth integration that includes all Webex scopes (expect spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens.
 
@@ -8,7 +8,7 @@ For production purpose, you would typically create your own OAuth integration fr
 
 To learn more about the implementation details of this Webex OAuth integration, check the DevNet learning lab: [Run a Webex Teams Integration locally](https://developer.cisco.com/learning/tracks/collab-cloud/spark-apps/collab-spark-intl/step/1).
 
-![](docs/img/OAuth-Flow-Sumpup.png)
+![](docs/img/OAuth-Show-Tokens.png)
 
 
 ## Run the sample locally
@@ -20,12 +20,26 @@ npm install
 DEBUG=oauth* node server.js
 ```
 
-You're all set, the integration sample is live! 
-Let's go through the OAuth flow.
+You're all set, the integration is ready to use.
 
-Reach to the integration home page from a Web browser: open [http://localhost:8080](http://localhost:8080)
+Open [http://localhost:8080](http://localhost:8080) in a Web browser.
 
 Click the 'Start' button
+
+
+## Customize the scoped tokens
+
+To change the set of scopes requested: 
+- open the `.env` file and update the SCOPES varialbe, 
+- or specify custom scopes on the command line
+
+**Example to request custom compliance scopes**
+
+Run the command below in a bash terminal:
+
+```
+DEBUG=oauth* SCOPES="spark-compliance:rooms_read spark-compliance:teams_read spark-compliance:events_read"  node server.js
+```
 
 
 ## Registering your own OAuth Integration
@@ -50,8 +64,6 @@ Fill the form fields:
 A good practice is to start small and extend the set of scopes asked for as the end-users gain trust in your app and is ready to ask more advanced features.
 
 Click save, and look for your integration `client id` and `client secret`.
-
-![](docs/img/OAuth-Flow-Step0-client-id-secret.png)
 
 
 Let's now configure the integration: you can either paste your integration client id and secret into [the code](https://github.com/CiscoDevNet/webex-integration-sample/blob/master/server.js#L26), or set these as env variables on the command line.

@@ -2,21 +2,30 @@
 <html>
 
 <head>
-  <title>Scoped Token Issuer</title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="styles.css">
+   <title>Scoped Token Issuer</title>
+   <meta charset="utf-8">
+   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
-  <div id="content">
-    <h1>Scoped Token Issuer</h1>
-    <p>This utility tool helps you generate OAuth scoped token.</p>
-    <p>Click below to initiate the OAuth flow.
-      <a href=<%= link %> class="button">Start OAuth flow</a>
-   </p>
-   <br/>
-   <p>Note: this tool uses a redirect to http://localhost:8080. It is intended for development & testing purposes. Pproduction apps should use HTTPS for OAuth redirects.</p>
-  </div>
+   <div align=center>
+      <div style="width:600px" align=left>
+
+         <h1>Scoped Token Issuer</h1>
+
+         <p>This utility tool helps generate OAuth scoped tokens.</p>
+
+         <p>Click below to initiate the OAuth flow:<br/>
+            <br/>
+            &nbsp;&nbsp;&nbsp;
+            <a href=<%= link %> class="button">Start OAuth flow</a>
+         </p>
+
+         <br />
+         <p><i>Note: this utility is intended for development & testing purposes, and redirects to http://localhost:8080.
+            Production applications should use HTTPS for OAuth redirects.</i></p>
+      </div>
+   </div>
 </body>
 
 </html>
