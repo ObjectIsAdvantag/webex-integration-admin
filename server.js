@@ -33,7 +33,7 @@ const clientId = process.env.CLIENT_ID || "C24ba23a9215b84f92b608ac72d664a4c0416
 const clientSecret = process.env.CLIENT_SECRET || "30a1fb7e62440b42336ae11978c6d58e32804071be3bf0c5a49743a105716d07";
 
 // supported scopes are documented at: https://developer.webex.com/add-integration.html, the scopes separator is a space
-const scopes = process.env.SCOPES || "spark-admin:people_read"; 
+const scopes = process.env.SCOPES || "spark-admin:people_read";
 
 // Compute redirect URI where your integration is waiting for Webex cloud to redirect and send the authorization code
 // unless provided via the REDIRECT_URI variable
@@ -101,31 +101,31 @@ app.get("/oauth", function (req, res) {
    if (req.query.error) {
       if (req.query.error == "access_denied") {
          debug("user declined, received err: " + req.query.error);
-         res.send("<h1>OAuth Integration could not complete</h1><p>Got your NO, ciao.</p>");
+         sendError("user declined access", res);
          return;
       }
 
       if (req.query.error == "invalid_scope") {
-         debug("wrong scope requested, received err: " + req.query.error);
-         res.send("<h1>OAuth Integration could not complete</h1><p>The application is requesting an invalid scope, Bye bye.</p>");
+         debug("invalid scope requested, received err: " + req.query.error + ", description: " + req.query.error_description);
+         sendError(req.query.error_description, res);
          return;
       }
 
       if (req.query.error == "server_error") {
          debug("server error, received err: " + req.query.error);
-         res.send("<h1>OAuth Integration could not complete</h1><p>Webex sent a server error, Auf Wiedersehen.</p>");
+         sendError(req.query.error, res);
          return;
       }
 
-      debug("received err: " + req.query.error);
-      res.send("<h1>OAuth Integration could not complete</h1><p>Error case not implemented, au revoir.</p>");
+      debug("unhandled error: " + req.query.error);
+      sendError(req.query.error, res);
       return;
    }
 
    // Check request parameters correspond to the spec
    if ((!req.query.code) || (!req.query.state)) {
       debug("expected code & state query parameters are not present");
-      res.send("<h1>OAuth Integration could not complete</h1><p>Unexpected query parameters, ignoring...</p>");
+      sendError("expected code & state query parameters are not present", res);
       return;
    }
 
@@ -133,7 +133,7 @@ app.get("/oauth", function (req, res) {
    // [NOTE] we implement a Security check below, but the State variable can also be leveraged for Correlation purposes
    if (state != req.query.state) {
       debug("State does not match");
-      res.send("<h1>OAuth Integration could not complete</h1><p>Wrong secret, aborting...</p>");
+      sendError("unexpected state", res);
       return;
    }
 
@@ -160,8 +160,8 @@ app.get("/oauth", function (req, res) {
    };
    request(options, function (error, response, body) {
       if (error) {
-         debug("could not reach Webex cloud to retreive access & refresh tokens");
-         res.send("<h1>OAuth Integration could not complete</h1><p>Sorry, could not retreive your access token. Try again...</p>");
+         debug("could not reach Webex cloud to retreive access & refresh tokens, err: " + error.message);
+         sendError("communication error: " + error.message, res);
          return;
       }
 
@@ -170,13 +170,16 @@ app.get("/oauth", function (req, res) {
          switch (response.statusCode) {
             case 400:
                const responsePayload = JSON.parse(response.body);
-               res.send("<h1>OAuth Integration could not complete</h1><p>Bad request. <br/>" + responsePayload.message + "</p>");
+               debug("bad request: " + responsePayload.description);
+               sendError("bad request: ", res);
                break;
             case 401:
-               res.send("<h1>OAuth Integration could not complete</h1><p>OAuth authentication error. Ask the service contact to check the secret.</p>");
+               debug("authentication error: " + error.message);
+               sendError("authentication error: " + error.message, res);
                break;
             default:
-               res.send("<h1>OAuth Integration could not complete</h1><p>Sorry, could not retreive your access token. Try again...</p>");
+               debug("unhandled error: " + error.message);
+               sendError("unhandled error: " + error.message, res);
                break;
          }
          return;
@@ -186,7 +189,7 @@ app.get("/oauth", function (req, res) {
       const json = JSON.parse(body);
       if ((!json) || (!json.access_token) || (!json.expires_in) || (!json.refresh_token) || (!json.refresh_token_expires_in)) {
          debug("could not parse access & refresh tokens");
-         res.send("<h1>OAuth Integration could not complete</h1><p>Sorry, could not retreive your access token. Try again...</p>");
+         sendError("could not parse response from Webex", res);
          return;
       }
       debug("OAuth flow completed, fetched tokens: " + JSON.stringify(json));
@@ -263,6 +266,13 @@ function getLogoutURL(token, redirectURL) {
    return "https://idbroker.webex.com/idb/oauth2/v1/logout?"
       + "goto=" + encodeURIComponent(rootURL)
       + "&token=" + token;
+}
+
+
+function sendError(error, res) {
+   const str = read(join(__dirname, '/www/error-page.ejs'), 'utf8');
+   const compiled = ejs.compile(str)({ "error": error });
+   res.send(compiled);
 }
 
 
