@@ -29,8 +29,8 @@ const app = express();
 //   - all available Webex user, admin & compliance scopes (except: spark:all)
 //   - redirect URI to localhost:8080/oauth 
 //
-const clientId = process.env.CLIENT_ID || "C24ba23a9215b84f92b608ac72d664a4c0416e8c6c5575f64c438813d50ba1955";
-const clientSecret = process.env.CLIENT_SECRET || "30a1fb7e62440b42336ae11978c6d58e32804071be3bf0c5a49743a105716d07";
+const clientId = process.env.CLIENT_ID || "C9bda9a21522c90367e7d4a254fd693f21683b36df038877ecb8126ffb2c96eb8";
+const clientSecret = process.env.CLIENT_SECRET || "a20261423824fb0b505353dcfcd83941c995a0c9f8bab72d05174e470298705f";
 
 // supported scopes are documented at: https://developer.webex.com/add-integration.html, the scopes separator is a space
 const scopes = process.env.SCOPES || "spark-admin:people_read";
