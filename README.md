@@ -1,19 +1,23 @@
 # Scoped Tokens issuer for Webex Administrators [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ObjectIsAdvantag/webex-integration-admin)
 
-A sample web application that generates scoped tokens for an Webex Organization administrator.
+A sample web application that generates scoped tokens for administrators of Webex Organizations.
 
-![](docs/img/OAuth-Show-Tokens.png)
+The application comes in 2 flavors:
+- [static](static.js): use an hard-coded list of scopes
+- [dynamic](server.js): let's the admin choose from a list of 'spark-admin' scopes (default mode and illustrated below)
 
-The applicatio comes in 2 flavors:
-- [dynamic](server.js): select from a list of 'spark-admin' scopes (default mode and illustrated below)
-- [static](static.js): start straight from the hard-coded list of scopes
-
-![](docs/img/select-scopes.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](docs/img/select-scopes.png)
 
 
-This sample is configured with a pre-defined [Webex OAuth Integration](https://developer.webex.com/docs/integrations) that includes all Webex scopes (except spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens on their local machine.
+Click start to initiate the OAuth flow. 
+If permissions are granted, the application will display newly issued access & refresh tokens to invoke Webex APIs on your behalf.
 
-For production purpose, you would typically create your own OAuth integration from the Webex for Developers portal. You would also deploy your integration over HTTPS.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](docs/img/OAuth-Show-Tokens.png)
+
+
+Note that:
+- this example is configured with a pre-defined [Webex OAuth Integration](https://developer.webex.com/docs/integrations) that includes all Webex scopes (except spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens on their local machine.
+- for production purpose, you would typically create your own OAuth integration from the Webex for Developers portal. You would also deploy your integration over HTTPS.
 
 To learn more about the implementation details of this Webex OAuth integration, check the DevNet learning lab: [Run a Webex Teams Integration locally](https://developer.cisco.com/learning/tracks/collab-cloud/spark-apps/collab-spark-intl/step/1).
 
