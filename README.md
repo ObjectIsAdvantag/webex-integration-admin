@@ -1,6 +1,6 @@
-# Scoped Tokens issuer for Webex Administrators
+# Scoped Tokens issuer for Webex Administrators [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ObjectIsAdvantag/webex-integration-admin)
 
-This code sample illustrates how to generate scoped tokens with [Webex OAuth Grant flow](https://developer.webex.com/docs/integrations).
+This code sample illustrates how to generate scoped tokens using the  [Webex OAuth Grant flow](https://developer.webex.com/docs/integrations).
 
 This sample is configured with a pre-defined OAuth integration that includes all Webex scopes (expect spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens.
 
