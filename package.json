@@ -1,7 +1,7 @@
 {
   "name": "webex-integration-admin",
-  "version": "0.2.1",
-  "description": "Scoped Tokens issuer for Webex Administrators",
+  "version": "0.3.0",
+  "description": "Scoped tokens for Webex Admins",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -32,6 +32,9 @@ const app = express();
 const clientId = process.env.CLIENT_ID || "C24ba23a9215b84f92b608ac72d664a4c0416e8c6c5575f64c438813d50ba1955";
 const clientSecret = process.env.CLIENT_SECRET || "34dbd055b33a3da0ad61c0ba3f0bff98a49cd90518d0042dc48e8c221184c14a";
 
+// supported scopes are documented at: https://developer.webex.com/add-integration.html, the scopes separator is a space
+const scopes = process.env.SCOPES || "spark-admin:people_read";
+
 // Compute redirect URI where your integration is waiting for Webex cloud to redirect and send the authorization code
 // unless provided via the REDIRECT_URI variable
 const port = process.env.PORT || 8080;
@@ -46,7 +49,7 @@ if (!redirectURI) {
       redirectURI = `http://localhost:${port}/oauth`;
    }
 }
-debug(`OAuth integration settings:\n   - CLIENT_ID    : ${clientId}\n   - REDIRECT_URI : ${redirectURI}\n   - SCOPES       : self-service via checkboxes`);
+debug(`OAuth integration settings:\n   - CLIENT_ID    : ${clientId}\n   - REDIRECT_URI : ${redirectURI}\n   - SCOPES       : ${scopes}`);
 
 
 // Step 1: initiate the OAuth flow
@@ -60,22 +63,20 @@ debug(`OAuth integration settings:\n   - CLIENT_ID    : ${clientId}\n   - REDIRE
 const state = process.env.STATE || "CiscoDevNet";
 
 /*
- * Initiate the flow of the OAuth Integration
+ * Initiate the flow with the default scopes of the OAuth Integration
  */
 const initiateURL = "https://api.ciscospark.com/v1/authorize?"
    + "client_id=" + clientId
    + "&response_type=code"
    + "&redirect_uri=" + encodeURIComponent(redirectURI)
-// Scopes are dynamically selected in this case
-//   + "&scope=" + encodeURIComponent(scopes)
+   + "&scope=" + encodeURIComponent(scopes)
    + "&state=" + state;
 
 const read = require("fs").readFileSync;
 const join = require("path").join;
-const str = read(join(__dirname, '/www/scopes.ejs'), 'utf8');
+const str = read(join(__dirname, '/www/index.ejs'), 'utf8');
 const ejs = require("ejs");
 const compiled = ejs.compile(str)({ "link": initiateURL }); // inject the link into the template
-
 
 app.get("/index.html", function (req, res) {
    debug("serving the integration home page (generated from an EJS template)");

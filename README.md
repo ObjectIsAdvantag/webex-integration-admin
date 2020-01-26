@@ -1,20 +1,27 @@
 # Scoped Tokens issuer for Webex Administrators [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ObjectIsAdvantag/webex-integration-admin)
 
-This code sample illustrates how to generate scoped tokens using the  [Webex OAuth Grant flow](https://developer.webex.com/docs/integrations).
-
-This sample is configured with a pre-defined OAuth integration that includes all Webex scopes (expect spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens.
-
-For production purpose, you would typically create your own OAuth integration from the Webex for Developers portal, and deploy your application over HTTPS.
-
-To learn more about the implementation details of this Webex OAuth integration, check the DevNet learning lab: [Run a Webex Teams Integration locally](https://developer.cisco.com/learning/tracks/collab-cloud/spark-apps/collab-spark-intl/step/1).
+A sample web application that generates scoped tokens for an Webex Organization administrator.
 
 ![](docs/img/OAuth-Show-Tokens.png)
+
+The applicatio comes in 2 flavors:
+- [dynamic](server.js): select from a list of 'spark-admin' scopes (default mode and illustrated below)
+- [static](static.js): start straight from the hard-coded list of scopes
+
+![](docs/img/select-scopes.png)
+
+
+This sample is configured with a pre-defined [Webex OAuth Integration](https://developer.webex.com/docs/integrations) that includes all Webex scopes (except spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens on their local machine.
+
+For production purpose, you would typically create your own OAuth integration from the Webex for Developers portal. You would also deploy your integration over HTTPS.
+
+To learn more about the implementation details of this Webex OAuth integration, check the DevNet learning lab: [Run a Webex Teams Integration locally](https://developer.cisco.com/learning/tracks/collab-cloud/spark-apps/collab-spark-intl/step/1).
 
 
 ## Run the sample locally
 
 ``` bash
-git clone https://github.com/CiscoDevNet/webex-integration-admin
+git clone https://github.com/ObjectIsAdvantag/webex-integration-admin
 cd webex-integration-admin
 npm install
 DEBUG=oauth* node server.js
@@ -24,12 +31,15 @@ You're all set, the integration is ready to use.
 
 Open [http://localhost:8080](http://localhost:8080) in a Web browser.
 
-Click the 'Start' button
+Select scopes in the proposed list, 
+and Click the 'Start' button
 
 
 ## Customize the scoped tokens
 
-To change the set of scopes requested: 
+Use the `static.js` service to launch an application with a pre-defined list of scopes.
+
+To define the list of scopes requested: 
 - open the `.env` file and update the SCOPES varialbe, 
 - or specify custom scopes on the command line
 
@@ -38,7 +48,7 @@ To change the set of scopes requested:
 Run the command below in a bash terminal:
 
 ```
-DEBUG=oauth* SCOPES="spark-compliance:rooms_read spark-compliance:teams_read spark-compliance:events_read"  node server.js
+DEBUG=oauth* SCOPES="spark-compliance:rooms_read spark-compliance:teams_read spark-compliance:events_read"  node static.js
 ```
 
 

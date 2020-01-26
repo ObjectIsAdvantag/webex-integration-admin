@@ -15,8 +15,10 @@
          <p>The OAuth flow was successfully completed:</p>
          <p>
             <ul>
-               <li>Access token: <input type="text" size="30" value=<%= accessToken %> /></li>
-               <li>Refresh token: <input type="text" size="30" value=<%= refreshToken %> /></li>
+               <li>Access token: <input type="text" size="30" id='accessToken' value=<%= accessToken %> />
+                  &nbsp;&nbsp;<button onclick="copyAccessToken()"><i>copy</i></button></li>
+               <li>Refresh token: <input type="text" size="30" id='refreshToken' value=<%= refreshToken %> />
+                  &nbsp;&nbsp;<button onclick="copyRefreshToken()"><i>copy</i></button></li>
             </ul>
          </p>
 
@@ -24,6 +26,22 @@
 
       </div>
    </div>
+
+   <script>
+      function copyAccessToken() {
+         let copyText = document.getElementById("accessToken");
+         copyText.select();
+         copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+         document.execCommand("copy");
+      }
+
+      function copyRefreshToken() {
+         let copyText = document.getElementById("refreshToken");
+         copyText.select();
+         copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+         document.execCommand("copy");
+      }
+   </script>
 
 </body>
 

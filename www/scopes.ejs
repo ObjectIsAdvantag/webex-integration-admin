@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Scoped Tokens for Admins</title>
+   <meta charset="utf-8">
+   <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body id="body" initiateURL=<%= link %>>
+
+   <script>
+      function start() {
+         // Extract checked scopes
+         let scopes = document.getElementsByName('scopes[]');
+         let scopeParameter = '';
+         for (var i = 0; i < scopes.length; i++) {
+            if (scopes[i].checked) {
+               scopeParameter += scopes[i].value + " "
+            }
+         }
+         // No scope selected
+         if (scopeParameter.length == 0) {
+            console.log('Please select one 1+ scopes');
+            // Show error message
+            document.getElementById('feedback').innerHTML = 'No scope selected';
+            document.getElementById('error').style.visibility = 'visible';
+            return;
+         }
+
+         // Erase help message
+         document.getElementById('feedback').innerHTML = '';
+         document.getElementById('error').style.visibility = 'none';
+         let encodedScopes = encodeURIComponent(scopeParameter.slice(0, -1));
+         let initateUrl = document.getElementById("body").getAttribute("initiateURL");
+         let initiateFlowURL = initateUrl + "&scope=" + encodedScopes;
+         console.log(`starting OAuth flow with: ${initiateFlowURL}`);
+
+         window.open(initiateFlowURL);
+         //window.location.href = initiateFlowURL;
+      }
+   </script>
+
+   <div align=center>
+      <div style="width:600px" align=left>
+
+         <h1>Flexible Scoped Tokens for Admins</h1>
+
+         <p>This utility tool helps generate <a href="https://developer.webex.com/docs/integrations/scopes">OAuth scoped
+               tokens</a> for Webex Organisations administrators, using an OAuth pre-configured integration.</p>
+
+         <p>Select scopes and click Start</p>
+
+         <input type="button" value="Start OAuth flow" onclick="start()" />
+
+         <div id='error' style="visibility: none">
+            <br/>
+            <label id='feedback' style="color: red; font-style: italic;"></label>
+         </div>
+
+         <label><b><u>'spark-admin' scopes</u></b></label><br/>
+         <table>
+            <col width="20">
+            <col width="500">
+            <tr>
+               <td valign="top"><input type="checkbox" name="scopes[]" value="spark-admin:devices_read" /></td>
+               <td>spark-admin:devices_read<br />
+                  <small>See details for any device in your organization</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:devices_write" /></td>
+               <td>spark-admin:devices_write<br />
+                  <small>Delete any device in your organization</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:licenses_read" /></td>
+               <td>spark-admin:licenses_read<br />
+                  <small>Access to read licenses available in your user's organizations</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:organizations_read" /></td>
+               <td>spark-admin:organizations_read<br />
+                  <small>Access to read your user's organizations</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:people_read" /></td>
+               <td>spark-admin:people_read<br />
+                  <small>Access to read your user's company directory</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:people_write" /></td>
+               <td>spark-admin:people_write<br />
+                  <small>Access to write to your user's company directory</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:places_read" /></td>
+               <td>spark-admin:places_read<br />
+                  <small>See details for any places and place service in your organization</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:places_write" /></td>
+               <td>spark-admin:places_write<br />
+                  <small>Create, update and delete any place and place service in your organization</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:resource_group_memberships_read" /></td>
+               <td>spark-admin:resource_group_memberships_read<br />
+                  <small>Access to read your organization's resource group memberships</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:resource_group_memberships_write" /></td>
+               <td>spark-admin:resource_group_memberships_write<br />
+                  <small>Access to update your organization's resource group memberships</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:resource_groups_read" /></td>
+               <td>spark-admin:resource_groups_read<br />
+                  <small>Access to read your organization's resource groups</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:roles_read" /></td>
+               <td>spark-admin:roles_read<br />
+                  <small>Access to read roles available in your user's organization</small>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:call_qualities_read" /></td>
+               <td>spark-admin:call_qualities_read<br />
+                  <small>Access to read organization's call qualities</small>
+               </td>
+            </tr>
+         </table>
+
+         <br />
+         <p><i>Note: this utility is intended for development & testing purposes, and redirects to
+               http://localhost:8080.
+               Production applications should use HTTPS for OAuth redirects.</i></p>
+      </div>
+   </div>
+</body>
+</html>
