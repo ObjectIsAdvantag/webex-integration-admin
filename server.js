@@ -196,8 +196,8 @@ app.get("/oauth", function (req, res) {
          return;
       }
 
-      // SECURITY: do not log tokens in production
-      if (('production' != process.env.NODE_ENV) || (localRedirectURI !== redirectURI)) {
+      // SECURITY: log tokens if in development environmet
+      if ((localRedirectURI == redirectURI) || ('development' == process.env.NODE_ENV)) {
          debug("OAuth flow completed, fetched tokens: " + JSON.stringify(json));
       }
 
