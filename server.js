@@ -35,6 +35,7 @@ const clientSecret = process.env.CLIENT_SECRET || "34dbd055b33a3da0ad61c0ba3f0bf
 // Compute redirect URI where your integration is waiting for Webex cloud to redirect and send the authorization code
 // unless provided via the REDIRECT_URI variable
 const port = process.env.PORT || 8080;
+const localRedirectURI = `http://localhost:${port}/oauth`;
 let redirectURI = process.env.REDIRECT_URI
 if (!redirectURI) {
    // Glitch hosting
@@ -43,7 +44,7 @@ if (!redirectURI) {
    }
    else {
       // defaults to localhost
-      redirectURI = `http://localhost:${port}/oauth`;
+      redirectURI = localRedirectURI;
    }
 }
 debug(`OAuth integration settings:\n   - CLIENT_ID    : ${clientId}\n   - REDIRECT_URI : ${redirectURI}\n   - SCOPES       : self-service via checkboxes`);
@@ -74,7 +75,7 @@ const read = require("fs").readFileSync;
 const join = require("path").join;
 const str = read(join(__dirname, '/www/scopes.ejs'), 'utf8');
 const ejs = require("ejs");
-const compiled = ejs.compile(str)({ "link": initiateURL }); // inject the link into the template
+const compiled = ejs.compile(str)({ "link": initiateURL, "local": (redirectURI == localRedirectURI) }); // inject the link into the template
 
 
 app.get("/index.html", function (req, res) {

@@ -54,11 +54,11 @@
          <input type="button" value="Start OAuth flow" onclick="start()" />
 
          <div id='error' style="visibility: none">
-            <br/>
+            <br />
             <label id='feedback' style="color: red; font-style: italic;"></label>
          </div>
 
-         <label><b><u>'spark-admin' scopes</u></b></label><br/>
+         <label><b><u>'spark-admin' scopes</u></b></label><br />
          <table>
             <col width="20">
             <col width="500">
@@ -143,10 +143,15 @@
          </table>
 
          <br />
-         <p><i>Note: this utility is intended for development & testing purposes, and redirects to
+
+         <% if (local) { %>
+            <p><i>Note: this utility is intended for development & testing purposes, and redirects to
                http://localhost:8080.
                Production applications should use HTTPS for OAuth redirects.</i></p>
+         <% } %>
+
       </div>
    </div>
 </body>
+
 </html>

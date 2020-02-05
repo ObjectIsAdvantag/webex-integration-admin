@@ -1,16 +1,20 @@
-# Scoped Tokens issuer for Webex Administrators [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ObjectIsAdvantag/webex-integration-admin)
+# Scoped Tokens for Webex Administrators [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ObjectIsAdvantag/webex-integration-admin)
 
-A sample web application that generates scoped tokens for administrators of Webex Organizations.
+A Web application that generates scoped tokens for administrators of Webex Organizations.
 
-The application comes in 2 flavors:
-- [static](static.js): use an hard-coded list of scopes
-- [dynamic](server.js): let's the admin choose from a list of 'spark-admin' scopes (default mode and illustrated below)
+The application comes in two flavors:
+1. [dynamic](server.js): let's the admin choose from a list of 'spark-admin' scopes (default mode and illustrated below)
+2. [static](static.js): uses an hard-coded list of admin scopes.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](docs/img/select-scopes.png)
 
 
-Click start to initiate the OAuth flow. 
-If permissions are granted, the application will display newly issued access & refresh tokens to invoke Webex APIs on your behalf.
+You can try the application thanks to this [Heroku deployment](https://webex-token.herokuapp.com). 
+Wait for up to 30 seconds for the application to launch.
+
+Click `Start` to initiate the OAuth flow. 
+
+If permissions are granted, the application will display newly issued access & refresh tokens to invoke Webex APIs on the user's behalf.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](docs/img/OAuth-Show-Tokens.png)
 
@@ -19,10 +23,18 @@ Note that:
 - this example is configured with a pre-defined [Webex OAuth Integration](https://developer.webex.com/docs/integrations) that includes all Webex scopes (except spark:all), and redirects to http://localhost:8080/oauth so that Webex Administrators can quickly generate 'scoped' OAuth access tokens on their local machine.
 - for production purpose, you would typically create your own OAuth integration from the Webex for Developers portal. You would also deploy your integration over HTTPS.
 
+
 To learn more about the implementation details of this Webex OAuth integration, check the DevNet learning lab: [Run a Webex Teams Integration locally](https://developer.cisco.com/learning/tracks/collab-cloud/spark-apps/collab-spark-intl/step/1).
 
 
-## Run the sample locally
+## Test the application
+
+The application is deployed for testing purpose at: [https://webex-token.herokuapp.com/index.html](https://webex-token.herokuapp.com/index.html).
+
+Note: the application uses Heroku free dynos. It generally takes up to 30 seconds to show up at launch, then performs normally.
+
+
+## Run the application locally
 
 ``` bash
 git clone https://github.com/ObjectIsAdvantag/webex-integration-admin
@@ -110,6 +122,24 @@ This step by step guide explained how to register a Webex Integration running on
 In the real-world, you will want to deploy your integration over HTTPS, and register its public URL rather than your local machine's.
 
 Check the DevNet learning lab: ['Deploy a Webex OAuth Integration'](https://developer.cisco.com/learning/lab/collab-spark-intd-heroku/step/1) for detailled instructions.
+
+
+## Common error codes
+
+The following errors may be raised as the OAuth flow completes.
+
+### invalid_scope: 'No user entitled service in request scopes'
+
+The Webex user can NOT access the requested scopes.
+
+Generally happens when a standard Webex user is requesting 'admin' level scopes.
+
+
+### access_denied
+
+The Webex organisation has configured policies that does not allow this OAuth integration to be executed for the Webex user.
+
+Contact the administrator of the Webex organisation for the user, or use a different Webex account (example: gmail accounts).
 
 
 ## More about Webex Integrations
