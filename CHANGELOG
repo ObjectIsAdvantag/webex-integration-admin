@@ -1,0 +1,13 @@
+# ChangeLog
+
+## v0.5
+- new page to display access & refresh tokens (with explanations)
+- do not log tokens when running in production
+
+## v0.4
+- hosting on Heroku for quick test purposes
+
+## v0.3
+- new possibility to select admin scopes
+- distinct static & dynamic services
+
