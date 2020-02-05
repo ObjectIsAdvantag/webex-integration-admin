@@ -67,8 +67,8 @@ const initiateURL = "https://api.ciscospark.com/v1/authorize?"
    + "client_id=" + clientId
    + "&response_type=code"
    + "&redirect_uri=" + encodeURIComponent(redirectURI)
-// Scopes are dynamically selected in this case
-//   + "&scope=" + encodeURIComponent(scopes)
+   // Scopes are dynamically selected in this case
+   //   + "&scope=" + encodeURIComponent(scopes)
    + "&state=" + state;
 
 const read = require("fs").readFileSync;
@@ -195,7 +195,11 @@ app.get("/oauth", function (req, res) {
          sendError("could not parse response from Webex", res);
          return;
       }
-      debug("OAuth flow completed, fetched tokens: " + JSON.stringify(json));
+
+      // SECURITY: do not log tokens in production
+      if (('production' != process.env.NODE_ENV) || (localRedirectURI !== redirectURI)) {
+         debug("OAuth flow completed, fetched tokens: " + JSON.stringify(json));
+      }
 
       // OAuth flow has completed
       oauthFlowCompleted(json, res);
@@ -217,7 +221,13 @@ function oauthFlowCompleted(json, res) {
    //
 
    const str = read(join(__dirname, '/www/show-tokens.ejs'), 'utf8');
-   const compiled = ejs.compile(str)({ "accessToken": json.access_token, "refreshToken": json.refresh_token });
+   const compiled = ejs.compile(str)({
+      "accessToken": json.access_token,
+      "accessTokenExpires": Math.round(json.expires_in/(3600*24)),
+      "refreshToken": json.refresh_token,
+      "refreshTokenExpires": Math.round(json.refresh_token_expires_in/(3600*24)),
+      "local": (redirectURI == localRedirectURI)
+   });
    res.send(compiled);
 }
 

@@ -12,17 +12,43 @@
       <div style="width:600px" align=left>
 
          <h1>Scoped Tokens for Admins</h1>
-         <p>The OAuth flow was successfully completed:</p>
-         <p>
-            <ul>
-               <li>Access token: <input type="text" size="30" id='accessToken' value=<%= accessToken %> />
-                  &nbsp;&nbsp;<button onclick="copyAccessToken()"><i>copy</i></button></li>
-               <li>Refresh token: <input type="text" size="30" id='refreshToken' value=<%= refreshToken %> />
-                  &nbsp;&nbsp;<button onclick="copyRefreshToken()"><i>copy</i></button></li>
-            </ul>
+
+         <p><i>All good: the OAuth flow successfully completed.</i></p>
+
+         <p>Copy your tokens to a safe place, and close this page.</p>
+
+         <h3>Access token</h3>
+
+         <p>The access token below lets you access Webex APIs, in the limits of the scopes chosen in the previous step.
+            This token will expire in <%= accessTokenExpires %> days.<br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token: <input type="text" size="30" id='accessToken' readonly='readonly'
+               value=<%= accessToken %> />
+            &nbsp;&nbsp;<button onclick="copyAccessToken()"><i>copy</i></button>
          </p>
 
-         <p>Copy these values to a safe place, and close this page.</p>
+         <h3>Refresh token</h3>
+
+         <p>The refresh token can be used to issue new access tokens.
+            The POST request to generate access tokens is <a
+               href="https://developer.webex.com/docs/integrations#getting-an-access-token">documented on 'Webex for
+               Developers'</a>.<br>
+            <br />
+            This token will expire in <%= refreshTokenExpires %> days.<br />
+            Note that generating a new access token - with the POST request documented above - will automatically renew
+            the lifetime of a refresh token.<br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token: <input type="text" size="30" id='refreshToken' readonly='readonly'
+               value=<%= refreshToken %> />
+            &nbsp;&nbsp;<button onclick="copyRefreshToken()"><i>copy</i></button>
+         </p>
+
+         <br />
+         <% if (local) { %>
+            <p><i>Note: this utility is intended for development & testing purposes, and redirects to
+               http://localhost:8080.
+               Production applications should use HTTPS for OAuth redirects.</i></p>
+         <% } %>
 
       </div>
    </div>
