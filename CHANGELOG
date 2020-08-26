@@ -1,7 +1,7 @@
 # ChangeLog
 
 ## v0.6 - 20200826
-- updated list of scopes
+- updated list of scopes and organized in 2 columns
 - changed api domain to https://webexapis.com
 - aligned UX for static and dynamic examples
 - fix for the static example

@@ -42,7 +42,7 @@
    </script>
 
    <div align=center>
-      <div style="width:600px" align=left>
+      <div style="width:1000px" align=left>
 
          <h1>Scoped Tokens for Admins</h1>
 
@@ -61,14 +61,24 @@
          <label><b><u>'spark-admin' scopes</u></b></label><br/>
          <table>
             <col width="20">
-            <col width="500">
+            <col width="480">
+            <col width="20">
+            <col width="480">
             <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:people_read" /></td>
+               <td>spark-admin:people_read<br />
+                  <small>Access to read your user's company directory</small>
+               </td>
                <td valign="top"><input type="checkbox" name="scopes[]" value="spark-admin:devices_read" /></td>
                <td>spark-admin:devices_read<br />
                   <small>See details for any device in your organization</small>
                </td>
             </tr>
             <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:people_write" /></td>
+               <td>spark-admin:people_write<br />
+                  <small>Access to write to your user's company directory</small>
+               </td>
                <td><input type="checkbox" name="scopes[]" value="spark-admin:devices_write" /></td>
                <td>spark-admin:devices_write<br />
                   <small>Create, update and delete devices and device configurations in your organization</small>
@@ -79,41 +89,39 @@
                <td>spark-admin:licenses_read<br />
                   <small>Access to read licenses available in your user's organizations</small>
                </td>
-            </tr>
-            <tr>
-               <td><input type="checkbox" name="scopes[]" value="spark-admin:organizations_read" /></td>
-               <td>spark-admin:organizations_read<br />
-                  <small>Access to read your user's organizations</small>
-               </td>
-            </tr>
-            <tr>
-               <td><input type="checkbox" name="scopes[]" value="spark-admin:people_read" /></td>
-               <td>spark-admin:people_read<br />
-                  <small>Access to read your user's company directory</small>
-               </td>
-            </tr>
-            <tr>
-               <td><input type="checkbox" name="scopes[]" value="spark-admin:people_write" /></td>
-               <td>spark-admin:people_write<br />
-                  <small>Access to write to your user's company directory</small>
-               </td>
-            </tr>
-            <tr>
                <td><input type="checkbox" name="scopes[]" value="spark-admin:places_read" /></td>
                <td>spark-admin:places_read<br />
                   <small>See details for any places and place service in your organization</small>
                </td>
             </tr>
             <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:organizations_read" /></td>
+               <td>spark-admin:organizations_read<br />
+                  <small>Access to read your user's organizations</small>
+               </td>
                <td><input type="checkbox" name="scopes[]" value="spark-admin:places_write" /></td>
                <td>spark-admin:places_write<br />
                   <small>Create, update and delete any place and place service in your organization</small>
                </td>
             </tr>
             <tr>
+               <td><input type="checkbox" name="scopes[]" value="spark-admin:roles_read" /></td>
+               <td>spark-admin:roles_read<br />
+                  <small>Access to read roles available in your user's organization</small>
+               </td>
+               <td><input type="checkbox" name="scopes[]" value="spark:xapi_statuses" /></td>
+               <td>spark:xapi_statuses<br />
+                  <small>Retrieve all information from RoomOS-enabled devices.</small>
+               </td>
+            </tr>
+            <tr>
                <td><input type="checkbox" name="scopes[]" value="spark-admin:resource_group_memberships_read" /></td>
                <td>spark-admin:resource_group_memberships_read<br />
                   <small>Access to read your organization's resource group memberships</small>
+               </td>
+               <td><input type="checkbox" name="scopes[]" value="spark:xapi_commands" /></td>
+               <td>spark:xapi_commands<br />
+                  <small>Execute all commands on RoomOS-enabled devices.</small>
                </td>
             </tr>
             <tr>
@@ -129,12 +137,6 @@
                </td>
             </tr>
             <tr>
-               <td><input type="checkbox" name="scopes[]" value="spark-admin:roles_read" /></td>
-               <td>spark-admin:roles_read<br />
-                  <small>Access to read roles available in your user's organization</small>
-               </td>
-            </tr>
-            <tr>
                <td><input type="checkbox" name="scopes[]" value="spark-admin:hybrid_clusters_read" /></td>
                <td>spark-admin:hybrid_clusters_read<br />
                   <small>Access to read hybrid clusters for your organization</small>
@@ -144,18 +146,6 @@
                <td><input type="checkbox" name="scopes[]" value="spark-admin:hybrid_connectors_read" /></td>
                <td>spark-admin:hybrid_connectors_read<br />
                   <small>Access to read hybrid connectors for your organization</small>
-               </td>
-            </tr>
-            <tr>
-               <td><input type="checkbox" name="scopes[]" value="spark:xapi_statuses" /></td>
-               <td>spark:xapi_statuses<br />
-                  <small>Retrieve all information from RoomOS-enabled devices.</small>
-               </td>
-            </tr>
-            <tr>
-               <td><input type="checkbox" name="scopes[]" value="spark:xapi_commands" /></td>
-               <td>spark:xapi_commands<br />
-                  <small>Execute all commands on RoomOS-enabled devices.</small>
                </td>
             </tr>
          </table>
