@@ -22,7 +22,7 @@ const express = require('express');
 const app = express();
 
 
-// Step 0: create an OAuth integration from https://developer.ciscospark.com/add-integration.html
+// Step 0: create an OAuth integration from https://developer.webex.com/add-integration.html
 //   - then fill in your Integration properties below
 
 // A default proposed integration has been setup with:
@@ -38,6 +38,7 @@ const scopes = process.env.SCOPES || "spark-admin:people_read";
 // Compute redirect URI where your integration is waiting for Webex cloud to redirect and send the authorization code
 // unless provided via the REDIRECT_URI variable
 const port = process.env.PORT || 8080;
+const localRedirectURI = `http://localhost:${port}/oauth`;
 let redirectURI = process.env.REDIRECT_URI
 if (!redirectURI) {
    // Glitch hosting
@@ -65,7 +66,7 @@ const state = process.env.STATE || "CiscoDevNet";
 /*
  * Initiate the flow with the default scopes of the OAuth Integration
  */
-const initiateURL = "https://api.ciscospark.com/v1/authorize?"
+const initiateURL = "https://webexapis.com/v1/authorize?"
    + "client_id=" + clientId
    + "&response_type=code"
    + "&redirect_uri=" + encodeURIComponent(redirectURI)
@@ -76,7 +77,10 @@ const read = require("fs").readFileSync;
 const join = require("path").join;
 const str = read(join(__dirname, '/www/index.ejs'), 'utf8');
 const ejs = require("ejs");
-const compiled = ejs.compile(str)({ "link": initiateURL }); // inject the link into the template
+const compiled = ejs.compile(str)({
+   "link": initiateURL,
+   "local": (redirectURI == localRedirectURI)
+});
 
 app.get("/index.html", function (req, res) {
    debug("serving the integration home page (generated from an EJS template)");
@@ -149,7 +153,7 @@ app.get("/oauth", function (req, res) {
    //   }
    const options = {
       method: "POST",
-      url: "https://api.ciscospark.com/v1/access_token",
+      url: "https://webexapis.com/v1/access_token",
       headers: {
          "content-type": "application/x-www-form-urlencoded"
       },
@@ -217,7 +221,15 @@ function oauthFlowCompleted(json, res) {
    //
 
    const str = read(join(__dirname, '/www/show-tokens.ejs'), 'utf8');
-   const compiled = ejs.compile(str)({ "accessToken": json.access_token, "refreshToken": json.refresh_token });
+
+   const compiled = ejs.compile(str)({
+      "accessToken": json.access_token,
+      "accessTokenExpires": Math.round(json.expires_in/(3600*24)),
+      "refreshToken": json.refresh_token,
+      "refreshTokenExpires": Math.round(json.refresh_token_expires_in/(3600*24)),
+      "local": (redirectURI == localRedirectURI)
+   });
+
    res.send(compiled);
 }
 
@@ -229,7 +241,7 @@ function refreshToken(token) {
 
    const options = {
       method: "POST",
-      url: "https://api.ciscospark.com/v1/access_token",
+      url: "https://webexapis.com/v1/access_token",
       headers: {
          "content-type": "application/x-www-form-urlencoded"
       },

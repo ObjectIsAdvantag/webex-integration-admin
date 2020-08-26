@@ -12,7 +12,7 @@ var request = require("request");
 
 var options = {
    method: "GET",
-   url: "https://api.ciscospark.com/v1/devices",
+   url: "https://webexapis.com/v1/devices",
    headers:
    {
       Authorization: "Bearer " + process.env.ACCESS_TOKEN

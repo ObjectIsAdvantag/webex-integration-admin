@@ -18,12 +18,18 @@
          <p>Click below to initiate the OAuth flow:<br/>
             <br/>
             &nbsp;&nbsp;&nbsp;
-            <a href=<%= link %> class="button">Start OAuth flow</a>
+
+            <input type="button" value="Start OAuth flow" onclick="location.href='<%= link %>';" />
+
          </p>
 
-         <br />
-         <p><i>Note: this utility is intended for development & testing purposes, and redirects to http://localhost:8080.
-            Production applications should use HTTPS for OAuth redirects.</i></p>
+         <br/>
+         <% if (local) { %>
+            <p><i>Note: this utility is intended for development & testing purposes, and redirects to
+               http://localhost:8080.
+               Production applications should use HTTPS for OAuth redirects.</i></p>
+         <% } %>
+
       </div>
    </div>
 </body>

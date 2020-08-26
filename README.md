@@ -6,15 +6,20 @@ The application comes in two flavors:
 1. [dynamic](server.js): let's the admin choose from a list of 'spark-admin' scopes (default mode and illustrated below)
 2. [static](static.js): uses an hard-coded list of admin scopes.
 
+## Test the application
+
+You can test the application:
+
+[Click to live test](https://webex-token.herokuapp.com) the dynamic OAuth tokens issuer for Webex admins
+
+0. Wait for up to 30 seconds for the application to launch, since the app is powered by [Heroku free dynos](https://devcenter.heroku.com/articles/free-dyno-hours)
+
+1. Select a few scopes, and click `Start` to initiate the OAuth flow. 
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](docs/img/select-scopes.png)
 
 
-You can try the application thanks to this [Heroku deployment](https://webex-token.herokuapp.com). 
-Wait for up to 30 seconds for the application to launch.
-
-Click `Start` to initiate the OAuth flow. 
-
-If permissions are granted, the application will display newly issued access & refresh tokens to invoke Webex APIs on the user's behalf.
+2. If permissions are granted, the application will display newly issued access & refresh tokens to invoke Webex APIs on the user's behalf.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](docs/img/OAuth-Show-Tokens.png)
 
@@ -25,13 +30,6 @@ Note that:
 
 
 To learn more about the implementation details of this Webex OAuth integration, check the DevNet learning lab: [Run a Webex Teams Integration locally](https://developer.cisco.com/learning/tracks/collab-cloud/spark-apps/collab-spark-intl/step/1).
-
-
-## Test the application
-
-The application is deployed for testing purpose at: [https://webex-token.herokuapp.com/index.html](https://webex-token.herokuapp.com/index.html).
-
-Note: the application uses Heroku free dynos. It generally takes up to 30 seconds to show up at launch, then performs normally.
 
 
 ## Run the application locally

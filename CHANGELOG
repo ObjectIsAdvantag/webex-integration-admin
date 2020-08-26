@@ -1,7 +1,10 @@
 # ChangeLog
 
-## v0.6
+## v0.6 - 20200826
 - updated list of scopes
+- changed api domain to https://webexapis.com
+- aligned UX for static and dynamic examples
+- fix for the static example
 
 ## v0.5
 - new page to display access & refresh tokens (with explanations)
@@ -13,4 +16,3 @@
 ## v0.3
 - new possibility to select admin scopes
 - distinct static & dynamic services
-
