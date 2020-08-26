@@ -8,9 +8,7 @@ The application comes in two flavors:
 
 ## Test the application
 
-You can test the application:
-
-[Click to live test](https://webex-token.herokuapp.com) the dynamic OAuth tokens issuer for Webex admins
+[Click to live test](https://webex-token.herokuapp.com) the dynamic OAuth tokens issuer for Webex admins.
 
 0. Wait for up to 30 seconds for the application to launch, since the app is powered by [Heroku free dynos](https://devcenter.heroku.com/articles/free-dyno-hours)
 
