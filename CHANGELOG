@@ -1,5 +1,8 @@
 # ChangeLog
 
+## v0.6
+- updated list of scopes
+
 ## v0.5
 - new page to display access & refresh tokens (with explanations)
 - do not log tokens when running in production

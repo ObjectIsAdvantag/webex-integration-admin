@@ -1,6 +1,6 @@
 {
   "name": "webex-integration-admin",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Scoped tokens for Webex Admins",
   "main": "server.js",
   "scripts": {
@@ -10,9 +10,9 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1",
-    "ejs": "^2.6.2",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "node-env-file": "^0.1.8",
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   }
 }
